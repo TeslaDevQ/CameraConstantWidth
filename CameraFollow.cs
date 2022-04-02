@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class CameraFollow : MonoBehaviour {
-
+/// <summary>
+/// Keeps constant camera width instead of height, works for both Orthographic & Perspective cameras
+/// Made for tutorial https://youtu.be/0cmxFjP375Y
+/// </summary>
+public class CameraConstantWidth : MonoBehaviour
+{
     public Vector2 DefaultResolution = new Vector2(720, 1280);
     [Range(0f, 1f)] public float WidthOrHeight = 0;
 
@@ -12,11 +16,6 @@ public class CameraFollow : MonoBehaviour {
 
     private float initialFov;
     private float horizontalFov = 120f;
-    
-    public Transform Player;
-    public float dampTime = 0.2f;
-    private Vector3 cameraPos;
-    private Vector3 velocity = Vector3.zero;
 
     private void Start()
     {
@@ -41,8 +40,6 @@ public class CameraFollow : MonoBehaviour {
             float constantWidthFov = CalcVerticalFov(horizontalFov, componentCamera.aspect);
             componentCamera.fieldOfView = Mathf.Lerp(constantWidthFov, initialFov, WidthOrHeight);
         }
-        cameraPos = new Vector3(0.52f, Player.position.y, -10f);
-        transform.position = Vector3.SmoothDamp(gameObject.transform.position, cameraPos, ref velocity, dampTime);
     }
 
     private float CalcVerticalFov(float hFovInDeg, float aspectRatio)
